@@ -35,3 +35,4 @@ class Instancia(db.Model):
 
     def __repr__(self):
         return f"Instancia(id={self.id}, dataset_id={self.dataset_id}, values={self.values})"
+

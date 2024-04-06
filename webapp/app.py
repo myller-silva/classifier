@@ -1,23 +1,24 @@
-# app.py
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+# from flask_sqlalchemy import SQLAlchemy
+# from flask_migrate import Migrate
 
 app = Flask(__name__)
 
 #configuracao do banco
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://teste:teste@localhost/teste_db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/teste_db' 
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
+# db = SQLAlchemy(app)
+# migrate = Migrate(app, db)
 
 from routes import *
-from models import *
+# from models import *
 
-if __name__ == '__main__':
-    # Cria o banco de dados se não existir
-    db.create_all()
+# with app.app_context():
+#     # Isso garante que as operações sejam executadas no contexto da aplicação Flask
+#     db.create_all()
+
+
+if __name__ == '__main__': 
     # Inicia a aplicação Flask 
     app.run(debug=True, host='0.0.0.0')
 
@@ -48,5 +49,3 @@ if __name__ == '__main__':
 #         return render_template('plot_matrix.html')
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
