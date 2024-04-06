@@ -1,0 +1,19 @@
+<!-- upload.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+Enviar Arquivo CSV - Minha Aplicação
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">Enviar Arquivo CSV</h2>
+  <form action="/process_file" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="csvFile">Selecione o arquivo CSV:</label>
+      <input type="file" class="form-control-file" id="csvFile" name="csvFile" accept=".csv" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+  </form>
+</div>
+{% endblock %}

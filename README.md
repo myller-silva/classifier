@@ -15,7 +15,6 @@ Esta aplicação Flask foi desenvolvida para receber imagens de dígitos manuscr
 
 - Python 3.x
 - Pacotes Python listados em `requirements.txt`
-- Um modelo treinado para a predição de dígitos manuscritos
 
 ## Instalação
 
@@ -39,7 +38,64 @@ Esta aplicação Flask foi desenvolvida para receber imagens de dígitos manuscr
 
 4. Coloque seu modelo treinado (por exemplo, um modelo de regressão logística, SVM, etc.) na pasta `models/`.
 
+## Migração  
+
+1. **Configurar o Flask-Migrate:** Certifique-se de ter o Flask-Migrate instalado em seu ambiente virtual. Você pode instalá-lo usando o pip:
+
+   ```
+   pip install Flask-Migrate
+   ```
+
+2. **Inicializar o Flask-Migrate:** No arquivo principal da sua aplicação Flask (geralmente `app.py`), inicialize o Flask-Migrate passando sua aplicação Flask e o objeto `db` como argumentos:
+
+   ```python
+   from flask import Flask
+   from flask_sqlalchemy import SQLAlchemy
+   from flask_migrate import Migrate
+
+   app = Flask(__name__)
+   app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///seu_banco_de_dados.db'
+   db = SQLAlchemy(app)
+   migrate = Migrate(app, db)
+   ```
+
+   Certifique-se de importar `Flask`, `SQLAlchemy`, `Migrate` e quaisquer outros objetos necessários.
+
+3. **Criar Migrações Iniciais:** Após definir seus modelos de banco de dados, você precisa criar uma migração inicial. Navegue até o diretório da sua aplicação e execute o seguinte comando:
+
+   ```
+   flask db init
+   ```
+
+   Isso criará um diretório chamado `migrations` na raiz do seu projeto, onde as migrações de banco de dados serão armazenadas.
+
+4. **Gerar Migrações:** Agora, você pode gerar uma migração inicial para seus modelos de banco de dados. Execute o seguinte comando:
+
+   ```
+   flask db migrate -m "Inicialização da base de dados"
+   ```
+
+   Isso criará um arquivo de migração com os detalhes dos modelos de banco de dados.
+
+5. **Aplicar Migrações:** Finalmente, você precisa aplicar as migrações ao seu banco de dados. Use o seguinte comando para isso:
+
+   ```
+   flask db upgrade
+   ```
+
+   Isso aplicará todas as migrações pendentes ao banco de dados, criando as tabelas conforme definido nos modelos.
+
 ## Executando a Aplicação
+
+1. Ative o ambiente virtual com um desses comandos:
+
+```bash
+.\flask_env\Scripts\activate
+```
+
+```bash
+flask_env\Scripts\activate
+```
 
 1. Execute o seguinte comando para iniciar o servidor Flask:
 

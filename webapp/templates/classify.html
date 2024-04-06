@@ -1,0 +1,27 @@
+<!-- classify.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+Classificar Instâncias - Minha Aplicação
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">Classificar Instâncias</h2>
+  <form action="/classify" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="model">Escolha um modelo:</label>
+      <select class="form-control" id="model" name="model">
+        <option value="modelo1">Modelo 1</option>
+        <option value="modelo2">Modelo 2</option>
+        <!-- Adicione mais opções conforme necessário -->
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="csvFile">Selecione o arquivo CSV:</label>
+      <input type="file" class="form-control-file" id="csvFile" name="csvFile" accept=".csv" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Classificar</button>
+  </form>
+</div>
+{% endblock %}
