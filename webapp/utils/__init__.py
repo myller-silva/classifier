@@ -53,6 +53,32 @@ def generate_classes(csv_file:str, modelo:str)->list:
     return imagens, targets, network_outputs
 
 
+import cplex
+def get_model_lp_from_file(lp_file): 
+    modelo_lp = cplex.Cplex()  
+    modelo_lp.read(lp_file) 
+    return modelo_lp
+ 
+
+def generate_explanations(csv_file:str, modelo:str)->list: 
+    # pegar o modelo para a explicação
+    folder_path = os.path.join('original.lp')
+    # folder_path = os.path.join(app.root_path, 'utils', 'modelos', 'digits', modelo, 'original.lp') 
+    
+    model_lp = get_model_lp_from_file(folder_path)
+    
+    variaveis = model_lp.variables.get_names()
+    return variaveis
+
+    # gerar explicacao
+    # pegar os pontos que nao estão na explicacao
+    # pintar esses pontos de vermelho na plotagem
+    
+    
+    pass
+
+
+
 def get_models(): 
     folder_path = os.path.join(app.root_path, 'utils/modelos') 
     model_files = [] 
