@@ -90,11 +90,11 @@ Esta aplicação Flask foi desenvolvida para receber imagens de dígitos manuscr
 1. Ative o ambiente virtual com um desses comandos:
 
 ```bash
-.\flask_env\Scripts\activate
+.\venv\Scripts\activate
 ```
 
 ```bash
-flask_env\Scripts\activate
+venv\Scripts\activate
 ```
 
 1. Execute o seguinte comando para iniciar o servidor Flask:
