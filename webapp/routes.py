@@ -1,51 +1,50 @@
-# routes.py
 from flask import render_template, request
 from app import app
+from utils import generate_classes, get_models
+
 
 @app.route('/')
 def index():
-    return render_template('home.html')
+    modelos = get_models()
+    return render_template('home.html', modelos=modelos)
 
+    
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
 
 @app.route('/about')
 def about():
     return render_template('about.html')
 
 
+@app.route('/explain', methods=['GET', 'POST'])
+def explain():
+    modelos = get_models()
+    
+    if request.method == 'POST':
+        if 'csvFile' not in request.files:
+            return render_template('explain.html', error="Nenhum arquivo CSV enviado")
+    if request.method == 'GET':
+        return render_template('explain.html', modelos=modelos)
+    
+    
+    return "Erro", 404
+
+
 @app.route('/classify', methods=['GET', 'POST'])
 def classify():
     if request.method == 'POST':
-        selected_model = request.form['model']
+        if 'csvFile' not in request.files:
+            return render_template('classify.html', error="Nenhum arquivo CSV enviado")
         csv_file = request.files['csvFile']
-        # Aqui você pode processar o arquivo CSV e realizar a classificação das instâncias usando o modelo selecionado
-        # Exemplo de processamento:
-        if csv_file:
-            # Salvar o arquivo em algum lugar
-            csv_file.save('caminho/para/salvar/arquivo.csv')
-            # Realizar o processamento e classificação dos dados usando o modelo selecionado
-            # Exemplo:
-            # results = classificar_instancias(csv_file, selected_model)
-            # return render_template('results.html', results=results)
-            return 'Arquivo enviado com sucesso e classificado usando o modelo: {}'.format(selected_model)
-    if request.method == 'GET':
-        return render_template('classify.html')
+        selected_model = request.form['model']  
+        imagens, targets, network_outputs = generate_classes(csv_file, selected_model) 
+        return render_template('result.html', imagens=imagens, network_outputs=network_outputs, targets=targets)
     
-
-# @app.route('/upload', methods=['GET', 'POST'])
-# def upload():
-#     if request.method == 'POST':
-#         csv_file = request.files['csvFile']
-#         # Aqui você pode processar o arquivo CSV e realizar a classificação das instâncias
-#         # Exemplo de processamento:
-#         if csv_file:
-#             # Salvar o arquivo em algum lugar
-#             csv_file.save('caminho/para/salvar/arquivo.csv')
-#             # Realizar o processamento e classificação dos dados
-#             # Exemplo:
-#             # results = classificar_instancias(csv_file)
-#             # return render_template('results.html', results=results)
-#             return 'Arquivo enviado com sucesso!'
-#     return render_template('upload.html')
+    if request.method == 'GET':
+        modelos = get_models()
+        return render_template('classify.html', modelos=modelos)
+    
+    return "Erro", 404

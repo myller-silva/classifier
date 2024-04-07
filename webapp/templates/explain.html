@@ -1,14 +1,14 @@
-<!-- classify.html -->
 {% extends 'base.html' %}
 
 {% block title %}
-Classificar Instâncias - Minha Aplicação
+
+Explicação
 {% endblock %}
 
 {% block content %}
 <div class="container">
-  <h2 class="mb-4">Classificar Instâncias</h2>
-  <form action="/classify" method="post" enctype="multipart/form-data">
+  <h2 class="mb-4">Explicar Instâncias</h2>
+  <form action="/explain" method="post" enctype="multipart/form-data">
     {%include 'select_model.html' %}
     <div class="form-group">
       <label for="csvFile">Selecione o arquivo CSV:</label>
