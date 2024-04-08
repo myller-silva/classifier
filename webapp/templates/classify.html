@@ -10,11 +10,13 @@ Classificar Instâncias - Minha Aplicação
   <h2 class="mb-4">Classificar Instâncias</h2>
   <form action="/classify" method="post" enctype="multipart/form-data">
     {%include 'select_model.html' %}
-    <div class="form-group">
-      <label for="csvFile">Selecione o arquivo CSV:</label>
-      <input type="file" class="form-control-file" id="csvFile" name="csvFile" accept=".csv" required>
+    <div class="form-group mt-3">
+      <label for="csvFile">Selecione o arquivo CSV</label>
+      <input type="file" class="form-control-file " id="csvFile" name="csvFile" accept=".csv" required>
     </div>
     <button type="submit" class="btn btn-primary mt-3">Classificar</button>
   </form>
+    <!-- <a href="{{ url_for('index') }}" class="btn btn-secondary mt-5">Voltar</a> -->
 </div>
+  
 {% endblock %}

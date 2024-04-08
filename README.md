@@ -1,4 +1,4 @@
-# Aplicação de Predição de Dígitos Manuscritos
+# Aplicação de Predição de Dígitos
 
 Esta aplicação Flask foi desenvolvida para receber imagens de dígitos manuscritos, fazer a predição desses dígitos usando um modelo de aprendizado de máquina treinado e retornar os resultados da predição.
 
@@ -27,7 +27,7 @@ Esta aplicação Flask foi desenvolvida para receber imagens de dígitos manuscr
 2. Navegue até o diretório do projeto:
 
    ```bash
-   cd sua_aplicacao
+   cd webapp
    ```
 
 3. Instale os pacotes Python necessários:
