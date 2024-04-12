@@ -53,11 +53,23 @@ def generate_classes_image(path_model:str, csv_file:str, modelo:str)->list:
     return imagens, targets, network_outputs
 
 
-def get_models_dataframe(dataframe_path, extention = '.h5'): 
+def get_models_dataframe(dataframe_path, extension = '.h5'): 
     folder_path = os.path.join(app.root_path, 'utils', 'modelos', dataframe_path) 
     model_files = [] 
     for file_name in os.listdir(folder_path): 
-        if file_name.endswith(extention): 
+        if file_name.endswith(extension): 
             model_files.append(file_name)
     return model_files
 
+
+import pickle
+def get_model_with_extension(dataframe_path:str ='', file:str = '', extension:str = '.pkl'): 
+    folder_path = os.path.join(app.root_path, 'utils', 'modelos', dataframe_path)
+    model_path = os.path.join(folder_path, file + extension)
+    
+    if os.path.exists(model_path):
+        with open(model_path, 'rb') as f:
+            model = pickle.load(f)
+        return model
+    else:
+        return None

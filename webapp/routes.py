@@ -1,6 +1,6 @@
 from flask import render_template, request, jsonify
 from app import app
-from utils import generate_classes_image, get_models_dataframe
+from utils import generate_classes_image, get_model_with_extension, get_models_dataframe
 
 
 import pickle
@@ -26,19 +26,40 @@ def get_models_digits():
 # Rota para listar todos os modelos do dataset chagas
 @app.route('/models/chagas', methods=['GET'])
 def get_models_chagas():
-    models = get_models_dataframe('chagas', extention='.pkl')
+    models = get_models_dataframe('chagas', extension='.pkl')
     return jsonify(models)
 
+
+import numpy as np
 @app.route('/chagas', methods=['POST'])
 def classificar_chagas():
 
-    data = request.get_json()
-    model = pickle.load('utils/chagas/model.pkl')
-    return 'model carregado com sucesso'
-    
-    # Classificar a instância do dataset
-    classificacao = model.predict(data['instancia'])
-    pass
+    data = request.get_json() 
+    if data and 'model' in data:
+        model:str = data['model']    
+        model_pkl = get_model_with_extension(
+            dataframe_path='chagas',
+            file='model',
+            extension='.pkl')
+        
+        instance = data['instancia']
+        # todo: conferir se está na ordem correta
+        values_list = np.array(list(instance.values()))
+        values_list = values_list[:-1]
+        values_list = values_list.reshape(1, -1)
+        predict = model_pkl.predict(values_list)
+        predict_proba = model_pkl.predict_proba(values_list)
+        
+        print(type(predict_proba), predict_proba)
+        
+        return jsonify({
+            'predict': predict.tolist(),
+            'predict_proba': predict_proba.tolist()
+        })
+
+    else:
+        return jsonify({'error': 'Dataset name not provided'})
+
 
 
 @app.route('/contact')
