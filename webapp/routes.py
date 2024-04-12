@@ -8,6 +8,8 @@ def index():
     modelos = get_models_dataframe('digits')
     return render_template('home.html', modelos=modelos)
 
+# todo: rota para adicionar um modelo.pkl ao banco de dados
+
 
 # Rota para listar todos os modelos do dataset digits
 @app.route('/models/digits', methods=['GET'])
