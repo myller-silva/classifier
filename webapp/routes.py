@@ -43,14 +43,12 @@ def classificar_chagas():
             extension='.pkl')
         
         instance = data['instancia']
-        # todo: conferir se está na ordem correta
+        # todo: fazer uma funcao para conferir se está na ordem correta
         values_list = np.array(list(instance.values()))
         values_list = values_list[:-1]
         values_list = values_list.reshape(1, -1)
         predict = model_pkl.predict(values_list)
         predict_proba = model_pkl.predict_proba(values_list)
-        
-        print(type(predict_proba), predict_proba)
         
         return jsonify({
             'predict': predict.tolist(),
