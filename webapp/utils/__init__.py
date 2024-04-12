@@ -36,7 +36,7 @@ def read_model_keras(path:str, file: str):
     return loaded_model
 
 
-def generate_classes(csv_file:str, modelo:str)->list:
+def generate_classes_image(csv_file:str, modelo:str)->list:
     dataframe = pd.read_csv(csv_file)
     loaded_model = read_model_keras(path='utils/modelos', file=modelo)
     imagens, targets, network_outputs = [], [], []
@@ -53,11 +53,11 @@ def generate_classes(csv_file:str, modelo:str)->list:
     return imagens, targets, network_outputs
 
 
-def get_models(): 
-    folder_path = os.path.join(app.root_path, 'utils/modelos') 
+def get_models_dataframe(dataframe_path, extention = '.h5'): 
+    folder_path = os.path.join(app.root_path, 'utils', 'modelos', dataframe_path) 
     model_files = [] 
     for file_name in os.listdir(folder_path): 
-        if file_name.endswith(".h5"): 
+        if file_name.endswith(extention): 
             model_files.append(file_name)
     return model_files
 
