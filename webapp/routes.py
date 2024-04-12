@@ -74,7 +74,7 @@ def classify():
             return render_template('classify.html', error="Nenhum arquivo CSV enviado")
         csv_file = request.files['csvFile']
         selected_model = request.form['model']  
-        imagens, targets, network_outputs = generate_classes_image(csv_file, selected_model) 
+        imagens, targets, network_outputs = generate_classes_image('utils/modelos/digits', csv_file, selected_model) 
         return render_template('result.html', model=selected_model, imagens=imagens, network_outputs=network_outputs, targets=targets)
     
     if request.method == 'GET':

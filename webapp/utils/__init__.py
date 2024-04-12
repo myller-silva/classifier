@@ -36,9 +36,9 @@ def read_model_keras(path:str, file: str):
     return loaded_model
 
 
-def generate_classes_image(csv_file:str, modelo:str)->list:
+def generate_classes_image(path_model:str, csv_file:str, modelo:str)->list:
     dataframe = pd.read_csv(csv_file)
-    loaded_model = read_model_keras(path='utils/modelos', file=modelo)
+    loaded_model = read_model_keras(path=path_model, file=modelo)
     imagens, targets, network_outputs = [], [], []
     for i in range(len(dataframe)): 
         imagem = generate_image(dataframe.iloc[i])
