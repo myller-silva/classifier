@@ -11,3 +11,7 @@
 
 - [ ] criar rota para escolher o dataset e o modelo referente a esse dataset para classificar uma instancia
 - [ ] criar rota para explicar instancia com MILP
+
+## Criar um script executavel no Linux e depois executar
+- [ ]chmod +x ./install_dependences.sh
+- [ ] ./script.sh
