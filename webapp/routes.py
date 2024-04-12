@@ -3,13 +3,6 @@ from app import app
 from utils import generate_classes_image, get_model_with_extension, get_models_dataframe
 
 
-import pickle
-# Carregar o modelo .pkl
-# with open('utils/chagas/model.pkl', 'rb') as model_file:
-#     model = pickle.load('utils/chagas/model.pkl')
-
-
-
 @app.route('/')
 def index():
     modelos = get_models_dataframe('digits')
@@ -39,7 +32,7 @@ def classificar_chagas():
         model:str = data['model']    
         model_pkl = get_model_with_extension(
             dataframe_path='chagas',
-            file='model',
+            file=model,
             extension='.pkl')
         
         instance = data['instancia']
@@ -57,7 +50,6 @@ def classificar_chagas():
 
     else:
         return jsonify({'error': 'Dataset name not provided'})
-
 
 
 @app.route('/contact')
