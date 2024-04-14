@@ -1,24 +1,27 @@
 <!-- result.html -->
-{% extends 'base.html' %}
-
-{% block title %}
- {{model}}
-{% endblock %}
-{% block content %}
+{% extends 'base.html' %} {% block title %} {{model}} {% endblock %} {% block
+content %}
 <h2 class="mb-4">Resultados da Classificação</h2>
 
 {% if model %}
 <h3>Modelo: <span>{{model}}</span></h3>
 {% endif %}
 <div class="row">
-
-  {% set len_imagens = imagens|length %}
-  {% for i in range(len_imagens) %} 
-  <div class="col-md-4 mb-4"> 
+  {% set len_imagens = imagens|length %} {% for i in range(len_imagens) %}
+  <div class="col-md-4 mb-4">
     <div>
-      <span>Target: {{ targets[i] }}</span><br>
-      <span>Saída da Rede Neural: {{ network_outputs[i] }}</span><br>
-      <img src="data:image/png;base64,{{ imagens[i] }}" class="img-fluid" alt="Imagem Classificada">
+      {% if targets %}
+      <span>Target: {{ targets[i] }}</span><br />
+      {% endif %}
+      
+      {% if network_outputs %}
+      <span>Saída da Rede Neural: {{ network_outputs[i] }}</span><br />
+      {% endif %}
+      <img
+        src="data:image/png;base64,{{ imagens[i] }}"
+        class="img-fluid"
+        alt="Imagem Classificada"
+      />
     </div>
   </div>
   {% endfor %}

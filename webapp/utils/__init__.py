@@ -36,21 +36,40 @@ def read_model_keras(path:str, file: str):
     return loaded_model
 
 
-def generate_classes_image(path_model:str, csv_file:str, modelo:str)->list:
+
+# def classificar_instancia(model_pkl, instance):
+#     # todo: fazer uma funcao para conferir se está na ordem correta
+#     values_list = np.array(list(instance.values()))
+#     values_list = values_list[:-1]
+#     values_list = values_list.reshape(1, -1)
+#     predict = model_pkl.predict(values_list)
+#     predict_proba = model_pkl.predict_proba(values_list)
+#     return predict, predict_proba
+
+
+def generate_classes_image(path_model:str, csv_file:str, modelo:str):
     dataframe = pd.read_csv(csv_file)
+    # dataframe = pd.DataFrame(csv_file)
     loaded_model = read_model_keras(path=path_model, file=modelo)
-    imagens, targets, network_outputs = [], [], []
+    targets, network_outputs = [], [] 
     for i in range(len(dataframe)): 
-        imagem = generate_image(dataframe.iloc[i])
-        imagens.append(imagem) 
         target = dataframe.iloc[i][-1]
         targets.append(target) 
         network_input = dataframe.iloc[i, :-1] 
         network_input = tf.reshape(tf.constant(network_input), (1, -1))
         network_output = loaded_model.predict(network_input, verbose=0)[0]
-        network_output = tf.argmax(network_output).numpy()
-        network_outputs.append(network_output) 
-    return imagens, targets, network_outputs
+        network_output = tf.argmax(network_output)
+        network_outputs.append(int(network_output))
+    return targets, network_outputs
+
+
+def generate_images(data_array:list):
+    dataframe = pd.read_csv(data_array)
+    imagens = []
+    for i in range(len(dataframe)): 
+        imagem = generate_image(dataframe.iloc[i])
+        imagens.append(imagem) 
+    return imagens
 
 
 def get_models_dataframe(dataframe_path, extension = '.h5'): 
@@ -65,11 +84,14 @@ def get_models_dataframe(dataframe_path, extension = '.h5'):
 import pickle
 def get_model_with_extension(dataframe_path:str ='', file:str = '', extension:str = '.pkl'): 
     folder_path = os.path.join(app.root_path, 'utils', 'modelos', dataframe_path)
-    model_path = os.path.join(folder_path, file + extension)
     
-    if os.path.exists(model_path):
-        with open(model_path, 'rb') as f:
+    if not file.endswith(extension): 
+        return None
+    
+    model_file = os.path.join(folder_path, file)
+    if os.path.exists(model_file):
+        with open(model_file, 'rb') as f:
             model = pickle.load(f)
         return model
-    else:
-        return None
+    
+    return None
