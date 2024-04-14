@@ -1,9 +1,10 @@
-from flask import jsonify, render_template, request
+from flask import render_template, request
 import requests
 from app import app
 from utils import get_models_dataframe
 
 base_url: str = "http://localhost:5000"
+base_url_api: str = f"{base_url}/api"
 
 modelos_chagas = get_models_dataframe("chagas", ".pkl")
 modelos_digits = get_models_dataframe("digits", ".h5")
@@ -32,9 +33,7 @@ def get_classify_chagas():
 
 @app.route("/classify_digits", methods=["POST"])
 def post_classify_digits():
-    # Fazendo uma solicitação POST para a rota '/csv_to_imagens'
-    response = requests.post(f"{base_url}/csv_to_imagens", files=request.files)
-    # Extraindo os dados JSON da resposta
+    response = requests.post(f"{base_url_api}/csv_to_imagens", files=request.files)
     imagens = response.json()
     return render_template("result.html", imagens=imagens)
 
@@ -42,7 +41,7 @@ def post_classify_digits():
 @app.route("/classify_chagas", methods=["GET"])
 def get_classify_digits():
     modelos = modelos_chagas
-    # exemplo de instancia para ajudar no preenchimento do formulario
+    # TODO: receber do banco de dados o exemplo de instancia para o modelo especifico
     instancia = {
         "Sexo": 1.0,
         "BMI": 28.0,
@@ -120,11 +119,8 @@ def get_classify_digits():
 @app.route("/classify_chagas", methods=["POST"])
 def post_classify_chagas():
     selected_model = request.form["model"]
-    
-
     # Criar um dicionário para armazenar a instância editada
     instancia = {}
-
     # Iterar sobre os itens enviados no formulário e armazenar na instância
     for key, value in request.form.items():
         # Ignorar o modelo, pois já foi obtido acima
@@ -132,9 +128,8 @@ def post_classify_chagas():
             instancia[key] = value
 
     response = requests.post(
-        url=f"{base_url}/chagas", 
-        json={"model": selected_model, "instancia": instancia}
+        url=f"{base_url_api}/chagas",
+        json={"model": selected_model, "instancia": instancia},
     )
 
-    # Verificar se a requisição foi bem-sucedida (código 200)
-    return f'{response.status_code}'
+    return response  # TODO: fazer tamplate html para esse retorno

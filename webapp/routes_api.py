@@ -10,9 +10,10 @@ from utils import (
 
 modelos_chagas = get_models_dataframe("chagas", extension=".pkl")
 modelos_digits = get_models_dataframe("digits", extension=".h5")
+base_url_api = '/api'
 
 
-@app.route("/models/chagas", methods=["GET"])
+@app.route(f"{base_url_api}/models/chagas", methods=["GET"])
 def get_models_chagas():
     return jsonify(modelos_chagas)
 
@@ -27,7 +28,7 @@ def classificar_instancia(model_pkl, instance):
     return predict, predict_proba
 
 
-@app.route("/chagas", methods=["POST"])
+@app.route(f"{base_url_api}/chagas", methods=["POST"])
 def post_classificar_chagas():
     data = request.get_json()
     if data and "model" in data and "instancia" in data:
@@ -49,31 +50,30 @@ def post_classificar_chagas():
         return jsonify({"error": "Parâmetros inválidos"}), 400
 
 
-@app.route("/models/digits", methods=["GET"])
+@app.route(f"{base_url_api}/models/digits", methods=["GET"])
 def get_models_digits():
     return jsonify(modelos_digits)
 
 
-@app.route("/digits", methods=["POST"])
+@app.route(f"{base_url_api}/digits", methods=["POST"])
 def post_classificar_digits():
 
     data = request.get_json()
     csv_file = data["csvFile"]
     selected_model = data["model"]
-    imagens, targets, network_outputs = generate_classes_image(
+    targets, network_outputs = generate_classes_image(
         "utils/modelos/digits", csv_file, selected_model
     )
     return jsonify(
         {
-            "model": selected_model,
-            "imagens": imagens,
+            "model": selected_model, 
             "network_outputs": network_outputs,
             "targets": targets,
         }
     )
 
 
-@app.route("/csv_to_imagens", methods=["POST"])
+@app.route(f"{base_url_api}/csv_to_imagens", methods=["POST"])
 def post_generate_images():
     # TODO: pegar o formato da imagem / matriz_size = (8, 8)
     if "csvFile" not in request.files:
