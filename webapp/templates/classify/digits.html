@@ -8,7 +8,7 @@ Classificar Instâncias - Minha Aplicação
 {% block content %}
 <div class="container">
   <h2 class="mb-4">Classificar Instâncias</h2>
-  <form action="/classify" method="post" enctype="multipart/form-data">
+  <form action="/classify/digits" method="post" enctype="multipart/form-data">
     {%include 'select_model.html' %}
     <div class="form-group mt-3">
       <label for="csvFile">Selecione o arquivo CSV</label>
@@ -16,6 +16,7 @@ Classificar Instâncias - Minha Aplicação
     </div>
     <button type="submit" class="btn btn-primary mt-3">Classificar</button>
   </form>
+  
 </div>
   
 {% endblock %}
